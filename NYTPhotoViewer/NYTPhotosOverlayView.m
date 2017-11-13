@@ -74,10 +74,14 @@
     
     [self addSubview:self.navigationBar];
     
-    NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.navigationBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.navigationBar attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0];
-    NSLayoutConstraint *horizontalPositionConstraint = [NSLayoutConstraint constraintWithItem:self.navigationBar attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
-    [self addConstraints:@[topConstraint, widthConstraint, horizontalPositionConstraint]];
+    if (@available(iOS 11.0, *)) {
+        [self.navigationBar.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor].active = YES;
+    } else {
+        [self.navigationBar.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
+    }
+    
+    [self.navigationBar.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [self.navigationBar.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
 }
 
 - (void)setCaptionView:(UIView *)captionView {
@@ -92,10 +96,15 @@
     self.captionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.captionView];
     
-    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.captionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.captionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0];
-    NSLayoutConstraint *horizontalPositionConstraint = [NSLayoutConstraint constraintWithItem:self.captionView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
-    [self addConstraints:@[bottomConstraint, widthConstraint, horizontalPositionConstraint]];
+    if (@available(iOS 11.0, *)) {
+        [self.captionView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+        [self.captionView.leadingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.leadingAnchor].active = YES;
+        [self.captionView.trailingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.trailingAnchor].active = YES;
+    } else {
+        [self.captionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+        [self.captionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+        [self.captionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+    }
 }
 
 - (UIBarButtonItem *)leftBarButtonItem {
